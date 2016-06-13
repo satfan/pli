@@ -484,28 +484,28 @@ std::string convertDVBUTF8(const unsigned char *data, int len, int table, int ts
 			eDebug("[convertDVBUTF8] reserved %d", data[0]);
 			++i;
 			break;
-+		default:
-+			if (table == 936) { //				eDebug("[vzDebug] in CP936  ..............");
-+				FORCE_GBK = true;
-+				len = ConvertGBK2Unicode(UTF, len, data);
-+				FORCE_GBK = false;
-+				return ConvertUnicode2UTF8(UTF,len);
-+			} 
-+			else if (table == 950) { //				eDebug("[vzDebug] in CP950  ..............");
-+				len = ConvertBig52Unicode(UTF, len, data);
-+				return ConvertUnicode2UTF8(UTF,len);
-+			}
-+			else {
-+				if (isUTF8(data,len)){ //					eDebug("[vzDebug] is UTF8  ..............");
-+					return std::string((char*)data, len);
-+				}
-+				else{ //					eDebug("[vzDebug] unknown code, guess  ..............");
-+					int r = ConvertGBK2Unicode(UTF, len, data);
-+					if (r == -1)
-+						r = ConvertBig52Unicode(UTF, len, data);
-+					return ConvertUnicode2UTF8(UTF,r);
-+				}
-+			}			
+		default:
+			if (table == 936) { //				eDebug("[vzDebug] in CP936  ..............");
+				FORCE_GBK = true;
+				len = ConvertGBK2Unicode(UTF, len, data);
+				FORCE_GBK = false;
+				return ConvertUnicode2UTF8(UTF,len);
+			} 
+			else if (table == 950) { //				eDebug("[vzDebug] in CP950  ..............");
+				len = ConvertBig52Unicode(UTF, len, data);
+				return ConvertUnicode2UTF8(UTF,len);
+			}
+			else {
+				if (isUTF8(data,len)){ //					eDebug("[vzDebug] is UTF8  ..............");
+					return std::string((char*)data, len);
+				}
+				else{ //					eDebug("[vzDebug] unknown code, guess  ..............");
+					int r = ConvertGBK2Unicode(UTF, len, data);
+					if (r == -1)
+						r = ConvertBig52Unicode(UTF, len, data);
+					return ConvertUnicode2UTF8(UTF,r);
+				}
+			}			
 	}
 
 	bool useTwoCharMapping = !table || (tsidonid && encodingHandler.getTransponderUseTwoCharMapping(tsidonid));
